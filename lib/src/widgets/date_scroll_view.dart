@@ -58,7 +58,9 @@ class DateScrollView extends StatelessWidget {
       textDirection: Directionality.of(context),
     );
     _painter.layout();
-    return _painter.size.width + 8.0;
+    return locale.languageCode == ar
+        ? _painter.size.width + 40.0
+        : _painter.size.width + 8.0;
   }
 
   @override
@@ -100,7 +102,9 @@ class DateScrollView extends StatelessWidget {
       alignment: scrollViewOptions.alignment,
       child: Text(
         '${dates[index]}${scrollViewOptions.label}',
-        style: selectedIndex == index ? scrollViewOptions.selectedTextStyle : scrollViewOptions.textStyle,
+        style: selectedIndex == index
+            ? scrollViewOptions.selectedTextStyle
+            : scrollViewOptions.textStyle,
       ),
     );
   }

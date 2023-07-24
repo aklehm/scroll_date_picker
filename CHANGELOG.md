@@ -1,3 +1,36 @@
+## 3.7.2
+
+* Add the italian locale to the list of the ones that require day / month / year order
+* Add support for Portuguese.
+
+## 3.7.1
+
+* Added support for Arabic. Thanks @Mahmod Masoud. (#22)
+
+
+## 3.7.0
+
+* Added support for Chinese. Thanks @Chenyang. (#19)
+* Added crossAxisAlignment and mainAxisAlignment to `DatePickerScrollViewOptions`. Thanks @Chenyang. (#19)
+
+
+## 3.6.2
+
+* Add a new backgroundColor constructor to date picker options. Thanks @Paroca72. (#18)
+
+
+## 3.6.1
+
+* Mac OS Support added in example. Thanks @Hamza A.Malik. (#16)
+* Added italian localization. Thanks @sharkfabri. (#17)
+
+
+## 3.6.0
+
+* Add a new `all` constructor to scroll view options. Thanks @Syed Ahkam. (#13)
+* Add and correct month names.  Thanks @Alexander Klehm. (#14)
+
+
 ## 3.5.1
 
 * Update to Flutter 3

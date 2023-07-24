@@ -15,12 +15,19 @@ class ScrollDatePicker extends StatefulWidget {
     DatePickerOptions? options,
     DatePickerScrollViewOptions? scrollViewOptions,
     this.indicator,
+    this.viewType,
   })  : minimumDate = minimumDate ?? DateTime(1960, 1, 1),
         maximumDate = maximumDate ?? DateTime.now(),
         locale = locale ?? const Locale('en'),
         options = options ?? const DatePickerOptions(),
         scrollViewOptions = scrollViewOptions ?? const DatePickerScrollViewOptions(),
         super(key: key);
+
+  /// A list that allows you to specify the type of date view.
+  /// And also the order of the viewType in list is the order of the date view.
+  /// If this list is null, the default order of locale is set.
+  /// TODO("Satoshi"): Specify the type of date view visible.
+  final List<DatePickerViewType>? viewType;
 
   /// The currently selected date.
   final DateTime selectedDate;
@@ -121,6 +128,7 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
 
   void _initDateScrollView() {
     _yearScrollView = DateScrollView(
+        key: const Key("year"),
         dates: _years,
         controller: _yearController,
         options: widget.options,
@@ -139,6 +147,7 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
           isYearScrollable = true;
         });
     _monthScrollView = DateScrollView(
+      key: const Key("month"),
       dates: widget.locale.months.sublist(_months.first - 1, _months.last),
       controller: _monthController,
       options: widget.options,
@@ -156,6 +165,7 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
       },
     );
     _dayScrollView = DateScrollView(
+      key: const Key("day"),
       dates: _days,
       controller: _dayController,
       options: widget.options,
@@ -203,7 +213,30 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
 
   List<Widget> _getScrollDatePicker() {
     _initDateScrollView();
+
+    // set order of scroll view
+    if (widget.viewType?.isNotEmpty ?? false) {
+      final viewList = <Widget>[];
+
+      for (var view in widget.viewType!) {
+        switch (view) {
+          case DatePickerViewType.year:
+            viewList.add(_yearScrollView);
+            break;
+          case DatePickerViewType.month:
+            viewList.add(_monthScrollView);
+            break;
+          case DatePickerViewType.day:
+            viewList.add(_dayScrollView);
+            break;
+        }
+      }
+
+      return viewList;
+    }
+
     switch (widget.locale.languageCode) {
+      case zh:
       case ko:
         return [_yearScrollView, _monthScrollView, _dayScrollView];
       case vi:
@@ -213,6 +246,8 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
       case es:
       case nl:
       case fr:
+      case it:
+      case pt:
         return [_dayScrollView, _monthScrollView, _yearScrollView];
       default:
         return [_monthScrollView, _dayScrollView, _yearScrollView];
@@ -225,11 +260,11 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
       alignment: Alignment.center,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: widget.scrollViewOptions.mainAxisAlignment,
+          crossAxisAlignment: widget.scrollViewOptions.crossAxisAlignment,
           children: _getScrollDatePicker(),
         ),
-
-        /// Date Picker Indicator
+        // Date Picker Indicator
         IgnorePointer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -241,8 +276,8 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Theme.of(context).scaffoldBackgroundColor,
-                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
+                        widget.options.backgroundColor,
+                        widget.options.backgroundColor.withOpacity(0.7),
                       ],
                     ),
                   ),
@@ -263,8 +298,8 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.7),
-                        Theme.of(context).scaffoldBackgroundColor,
+                        widget.options.backgroundColor.withOpacity(0.7),
+                        widget.options.backgroundColor,
                       ],
                     ),
                   ),
@@ -277,3 +312,6 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
     );
   }
 }
+
+/// ViewType that represents order of scroll view
+enum DatePickerViewType { year, month, day }

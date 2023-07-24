@@ -6,15 +6,20 @@ const String de = 'de';
 const String vi = 'vi';
 const String en = 'en';
 const String id = 'id';
+const String it = 'it';
 const String th = 'th';
 const String es = 'es';
 const String nl = 'nl';
+const String zh = 'zh';
+const String ar = 'ar';
+const String pt = 'pt';
 
 extension LocaleExtension on Locale {
   List<String> get months {
     switch (languageCode) {
+      case zh:
       case ko:
-        return koMonths;
+        return intMonths;
       case fr:
         return frMonths;
       case de:
@@ -23,19 +28,25 @@ extension LocaleExtension on Locale {
         return viMonths;
       case id:
         return idMonths;
+      case it:
+        return itMonths;
       case th:
         return thMonths;
       case es:
         return esMonth;
       case nl:
         return nlMonth;
+      case ar:
+        return arMonths;
+      case pt:
+        return ptMonths;
       default:
         return enMonths;
     }
   }
 }
 
-const List<String> koMonths = [
+const List<String> intMonths = [
   '1',
   '2',
   '3',
@@ -119,6 +130,20 @@ const List<String> idMonths = [
   'November',
   'Desember',
 ];
+const List<String> itMonths = [
+  'Gennaio',
+  'Febbraio',
+  'Marzo',
+  'Aprile',
+  'Maggio',
+  'Giugno',
+  'Luglio',
+  'Agosto',
+  'Settembre',
+  'Ottobre',
+  'Novembre',
+  'Dicembre',
+];
 const List<String> thMonths = [
   'มกราคม',
   'กุมภาพันธ์',
@@ -160,4 +185,33 @@ const List<String> nlMonth = [
   'Oktober',
   'November',
   'December',
+];
+const List<String> arMonths = [
+  'يناير',
+  'فبراير',
+  'مارس',
+  'أبريل',
+  'مايو',
+  'يونيو',
+  'يوليو',
+  'أغسطس',
+  'سبتمبر',
+  'أكتوبر',
+  'نوفمبر',
+  'ديسمبر',
+];
+
+const List<String> ptMonths = [
+  'janeiro',
+  'fevereiro',
+  'março',
+  'abril',
+  'maio',
+  'junho',
+  'julho',
+  'agosto',
+  'setembro',
+  'outubro',
+  'novembro',
+  'dezembro',
 ];
